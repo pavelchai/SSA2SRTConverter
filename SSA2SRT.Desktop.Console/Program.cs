@@ -30,9 +30,12 @@ namespace ASS2SRT
 			
 			Console.WriteLine("2) Select the output directory");
 			string outputPath = ReadPath();
-			
-			SSA2SRTConverterSettings settings = new SSA2SRTConverterSettings(nameConverter : n => ConvertName(n, outputPath));
-			
+
+			SSA2SRTConverterSettings settings = new SSA2SRTConverterSettings()
+			{
+				NameConverter = n => ConvertName(n, outputPath),
+			};
+
 			IEnumerable<SSA2SRTConverterData> input = Directory.EnumerateFiles(inputPath).
 				Where(f => 
 				      f.EndsWith(".ass", StringComparison.OrdinalIgnoreCase) || 
@@ -41,8 +44,8 @@ namespace ASS2SRT
 				Select(f => new SSA2SRTConverterData(f, File.ReadAllBytes(f)));
 			
 			IEnumerable<SSA2SRTConverterData> output = SSA2SRTConverter.Convert(input, settings);
-			
-			foreach(var converted in output)
+
+			foreach (var converted in output)
 			{
 				File.WriteAllBytes(converted.Name, converted.Data);
 			}

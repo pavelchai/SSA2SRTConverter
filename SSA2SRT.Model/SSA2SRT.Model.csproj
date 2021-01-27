@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <Authors>Pavel Chaimardanov</Authors>
-    <Description>Model for the SSA2SRT converter.</Description>
+    <Description>Model for the SSA2SRT Converter.</Description>
     <Copyright>Pavel Chaimardanov</Copyright>
   </PropertyGroup>
 

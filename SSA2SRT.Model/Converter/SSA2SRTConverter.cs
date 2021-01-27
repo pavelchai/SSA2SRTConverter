@@ -15,89 +15,140 @@ namespace SSA2SRT.Model
 	/// </summary>
 	public static class SSA2SRTConverter
 	{
-		/// <summary>
-		/// Converts the SSA/ASS subtitles to the SRT subtitles.
-		/// </summary>
-		/// <param name="data"> SSA/ASS subtitles or/and ZIP32/64 files with SSA/ASS subtitles. </param>
-		/// <param name="settings"> Settings for the converter. </param>
-		/// <returns> SRT subtitles or/and ZIP32/64 files with SRT subtitles. </returns>
-		/// <exception cref="ArgumentException">
-        /// The exception that is thrown when argumen is null.
+        /// <summary>
+        /// Converts the SSA/ASS subtitles to the SRT subtitles.
+        /// </summary>
+        /// <param name="data"> SSA/ASS subtitles or/and ZIP32/64 files with SSA/ASS subtitles. </param>
+        /// <param name="settings"> Settings for the converter. </param>
+        /// <returns> SRT subtitles or/and ZIP32/64 files with SRT subtitles. </returns>
+        /// <exception cref="ArgumentException">
+        /// The exception that is thrown when argument is null.
         /// </exception>
-		/// <exception cref="InvalidOperationException">
+        /// <exception cref="InvalidOperationException">
         /// The exception that is thrown when subtitle is invalid.
         /// </exception>
-		public static IEnumerable<SSA2SRTConverterData> Convert(IEnumerable<SSA2SRTConverterData> data, SSA2SRTConverterSettings settings)
+        public static IEnumerable<SSA2SRTConverterData> Convert(IEnumerable<SSA2SRTConverterData> data, SSA2SRTConverterSettings settings)
 		{
 			if (data == null)
 			{
 				throw new ArgumentException("Data is null");
 			}
-			
-			if (settings== null)
+
+			if (settings == null)
 			{
 				throw new ArgumentException("Settings is null");
 			}
-			
-			bool ignoreErrors = settings.IgnoreExceptions.GetValueOrDefault();
-			int index = 0;
-			
-			IReadOnlyDataStorer inputStorer;
-			IWriteOnlyDataStorer outputStorer;
-			string valueName, convertedName;
-			byte[] valueData, convertedData;
-			
-			foreach(var value in data)
+
+			if (settings.SaveInZipFile)
 			{
-				convertedData = null;
-				
-				valueName = value.Name;
-				valueData = value.Data;
-				
-				if (valueName == null)
-				{
-					throw new ArgumentException(string.Format("Key with index {0} is null.", index));
-				}
-				
-				if(valueData == null)
-				{
-					throw new ArgumentException(string.Format("Data with the name {0} is null.", valueName));
-				}
-				
-				convertedName = settings.NameConverter(valueName);
-				
+				SSA2SRTConverterData convertedData = null;
+
 				try
 				{
-					inputStorer = ZipReadOnlyStorer.FromData(valueData);
-					outputStorer = new ZipWriteOnlyStorer(true, (inputStorer as ZipReadOnlyStorer).IsZip64);
-					
+					IReadOnlyDataStorer inputStorer = new CompositeReadOnlyStorer(data);
+					IWriteOnlyDataStorer outputStorer = new ZipWriteOnlyStorer(true, true);
+
 					ConvertFromStorer(inputStorer, outputStorer, settings);
-					convertedData = outputStorer.Close();
+					convertedData = new SSA2SRTConverterData(settings.ZipFileName, outputStorer.Close());
 				}
 				catch
 				{
+					if (!settings.IgnoreExceptions)
+					{
+						throw;
+					}
+				}
+
+				if (convertedData != null)
+				{
+					yield return convertedData;
+				}
+
+				yield break;
+			}
+			else
+			{
+				int index = 0;
+				SSA2SRTConverterData convertedData = null;
+
+				foreach (var value in data)
+				{
+					convertedData = null;
+
 					try
 					{
-						convertedData = ConvertFromSubtitle(valueData, valueName, settings);
+						convertedData = ConvertFromFile(index, value, settings);
 					}
 					catch
 					{
-						if (!ignoreErrors)
-						{
-							throw;
-						}
 					}
+
+					if (convertedData != null)
+					{
+						yield return convertedData;
+					}
+
+					index++;
 				}
-				
-				if (convertedData != null)
-				{
-					yield return new SSA2SRTConverterData(convertedName, convertedData);
-				}
-				
-				index++;
 			}
 		}
-		
+
+		/// <summary>
+		/// Converts the SSA/ASS subtitle or ZIP32/64 with SSA/ASS subtitles.
+		/// </summary>
+		/// <param name="data"> SSA/ASS subtitle or ZIP32/64 file with SSA/ASS subtitle. </param>
+		/// <param name="settings"> Settings for the converter. </param>
+		/// <returns> SRT subtitle or ZIP32/64 file with SRT subtitles. </returns>
+		/// <exception cref="ArgumentException">
+		/// The exception that is thrown when argument is null.
+		/// </exception>
+		/// <exception cref="InvalidOperationException">
+		/// The exception that is thrown when subtitle is invalid.
+		/// </exception>
+		private static SSA2SRTConverterData ConvertFromFile(int index, SSA2SRTConverterData data, SSA2SRTConverterSettings settings)
+		{
+			string valueName = data.Name;
+			byte[] valueData = data.Data;
+
+			if (valueName == null)
+			{
+				throw new ArgumentException(string.Format("Key with index {0} is null.", index));
+			}
+
+			if (valueData == null)
+			{
+				throw new ArgumentException(string.Format("Data with the name {0} is null.", valueName));
+			}
+
+			string convertedName = settings.NameConverter(valueName);
+			byte[] convertedData = null;
+
+			try
+			{
+				IReadOnlyDataStorer inputStorer = ZipReadOnlyStorer.FromData(valueData);
+				IWriteOnlyDataStorer outputStorer = new ZipWriteOnlyStorer(true, (inputStorer as ZipReadOnlyStorer).IsZip64);
+
+				ConvertFromStorer(inputStorer, outputStorer, settings);
+				convertedData = outputStorer.Close();
+			}
+			catch
+			{
+				try
+				{
+					convertedData = ConvertFromSubtitle(valueData, valueName, settings);
+				}
+				catch
+				{
+					if (!settings.IgnoreExceptions)
+					{
+						throw;
+					}
+				}
+			}
+
+			return new SSA2SRTConverterData(convertedName, convertedData);
+		}
+
 		/// <summary>
 		/// Converts the SSA/ASS subtitles in the storer to the SRT subtitles.
 		/// </summary>
@@ -108,8 +159,7 @@ namespace SSA2SRT.Model
 		{
 			IReadOnlyList<IDataStorerEntry> entries = inputStorer.Entries;
 			int count = entries.Count;
-			bool ignoreErrors = settings.IgnoreExceptions.GetValueOrDefault();
-			
+
 			IDataStorerEntry entry;
 			string name;
 			
@@ -119,7 +169,8 @@ namespace SSA2SRT.Model
 				name = entry.Path;
 				
 				if (!name.EndsWith(".ass", StringComparison.OrdinalIgnoreCase) 
-				    && !name.EndsWith(".ssa", StringComparison.OrdinalIgnoreCase))
+				    && !name.EndsWith(".ssa", StringComparison.OrdinalIgnoreCase)
+					 && !name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 				{
 					continue;
 				}
@@ -128,18 +179,18 @@ namespace SSA2SRT.Model
 				{
 					outputStorer.Add(
 						settings.NameConverter(name),
-						ConvertFromSubtitle(inputStorer.Read(entry), name, settings));
+						ConvertFromFile(i, new SSA2SRTConverterData(name, inputStorer.Read(entry)), settings).Data);
 				}
 				catch
 				{
-					if (!ignoreErrors)
+					if (!settings.IgnoreExceptions)
 					{
 						throw;
 					}
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Converts the SSA/ASS subtitle to the SRT subtitle.
 		/// </summary>
@@ -147,9 +198,9 @@ namespace SSA2SRT.Model
 		/// <param name="name"> Name of the SSA/ASS subtitle. </param>
 		/// <param name="settings"> Settings for the converter. </param>
 		/// <returns> Array of the bytes that represents the SRT subtitle. </returns>
-        /// <exception cref="InvalidOperationException">
-        /// The exception that is thrown when subtitle is invalid.
-        /// </exception>
+		/// <exception cref="InvalidOperationException">
+		/// The exception that is thrown when subtitle is invalid.
+		/// </exception>
 		private static byte[] ConvertFromSubtitle(byte[] data, string name, SSA2SRTConverterSettings settings)
 		{
 			int startIndex = -1;
