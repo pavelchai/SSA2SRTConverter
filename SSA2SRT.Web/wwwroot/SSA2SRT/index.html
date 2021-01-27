@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title> SSA/ASS to SRT subtitles converter </title>
+
+    <script src="app.bundle.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="app.bundle.css" type="text/css"/>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <div class="navbar-brand">
+                SSA/ASS to SRT Converter
+            </div>  
+        </div>
+    </nav>
+
+    <main>
+        <div class="container mt-3">
+            <div class="alert alert-dismissable alert-info">
+                Usage:
+                <ul>
+                    <li>
+                        Drop your subtitles (*.ssa, *.ass) / zip files with the subtitles in form below or select files in file dialog
+                    </li>
+                     <li>
+                        Click on individual upload button to convert specified subtitle / zip file with subtitles
+                    </li>
+                    <li>
+                        Click on global upload button to convert all files (all converted files will be stored in <strong>converted_time_date.zip</strong> file)
+                    </li>
+                </ul>
+            </div>
+            <div class="file-loading" data-theme="fas">
+                <input id="files-input" name="files-input" type="file" accept=".ssa, .ass, .zip" multiple>
+            </div>
+        </div>
+        <br/>
+    </main>
+
+    <footer class="footer bg-dark text-white position-absolute">
+        <p class="text-muted overflow-hidden">&copy; Pavel Chaimardanov, 2021</p>
+    </footer>
+
+    <script>
+        window.initFileInput("#files-input");
+    </script>
+</body>
+</html>

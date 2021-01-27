@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSA2SRT.Model", "SSA2SRT.Model\SSA2SRT.Model.csproj", "{F81EEC49-1E21-4C84-9DDA-3957940D91F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSA2SRT.Desktop.Console", "SSA2SRT.Desktop.Console\SSA2SRT.Desktop.Console.csproj", "{9DEFD5BA-A025-41DE-9718-19982A049184}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSA2SRT.Desktop.Console", "SSA2SRT.Desktop.Console\SSA2SRT.Desktop.Console.csproj", "{9DEFD5BA-A025-41DE-9718-19982A049184}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSA2SRT.Web", "SSA2SRT.Web\SSA2SRT.Web.csproj", "{B553E6CA-0F82-47A2-824D-378EDAF5037B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9DEFD5BA-A025-41DE-9718-19982A049184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DEFD5BA-A025-41DE-9718-19982A049184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DEFD5BA-A025-41DE-9718-19982A049184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B553E6CA-0F82-47A2-824D-378EDAF5037B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B553E6CA-0F82-47A2-824D-378EDAF5037B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B553E6CA-0F82-47A2-824D-378EDAF5037B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B553E6CA-0F82-47A2-824D-378EDAF5037B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

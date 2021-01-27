@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Pavel Chaimardanov</Authors>
+    <Description>Desktop client for the SSA2SRT Converter (Console)</Description>
+    <Copyright>Pavel Chaimardanov</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

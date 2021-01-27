@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Pavel Chaimardanov</Authors>
+    <Description>Web client for the SSA2SRT Converter</Description>
+    <Copyright>Pavel Chaimardanov</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSA2SRT.Model\SSA2SRT.Model.csproj" />
+  </ItemGroup>
+
+</Project>
