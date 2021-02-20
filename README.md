@@ -8,11 +8,13 @@ Targets:
 
 2) SSA2SRT.Desktop.Console - .Net Core 2.1
 
-3) SSA2SRT.Web - .Net Core 3.1
+3) SSA2SRT.Web - .Net 5
 
 # How to use (Web)
 
 Online demo: https://altphotonic.ru/SSA2SRT
+REST-API: https://altphotonic.ru/api/SSA2SRTConverterService
+Swagger UI: https://altphotonic.ru/swagger/index.html?urls.primaryName=SSA2SRTConverterService
 
 1) Open link in browser
 2) Drop your subtitles (*.ssa, *.ass) / zip files with the subtitles in form below or select files in file dialog
