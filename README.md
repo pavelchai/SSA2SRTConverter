@@ -12,9 +12,7 @@ Targets:
 
 # How to use (Web)
 
-Online demo: https://altphotonic.ru/SSA2SRT
- 
-REST-API: https://altphotonic.ru/api/SSA2SRTConverterService
+Online demo: https://altphotonic.ru/SSA2SRTService
 
 Swagger UI: https://altphotonic.ru/swagger/index.html?urls.primaryName=SSA2SRTConverterService
 
