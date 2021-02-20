@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SSA2SRT.Web</name>
+    </assembly>
+    <members>
+        <member name="M:SSA2SRTService.Controllers.SSA2SRTConverterServiceController.Post(SSA2SRTService.Models.SSA2SRTServiceRequest)">
+            <summary>
+            Converts the SubStationAlpha subtitles (*.ssa, *.ass) to the SubRip subtitles (*.srt).
+            </summary>
+            <param name="request"> Request info. </param>
+            <returns> Response info. </returns>
+        </member>
+        <member name="T:SSA2SRTService.Models.File">
+            <summary>
+            File.
+            </summary>
+        </member>
+        <member name="P:SSA2SRTService.Models.File.Name">
+            <summary>
+            Name of the file.
+            </summary>
+        </member>
+        <member name="P:SSA2SRTService.Models.File.DataBase64">
+            <summary>
+            Data of the file (as Base64 string, with MIME type).
+            </summary>
+        </member>
+        <member name="T:SSA2SRTService.Models.SSA2SRTServiceRequest">
+            <summary>
+            Request.
+            </summary>
+        </member>
+        <member name="P:SSA2SRTService.Models.SSA2SRTServiceRequest.SaveInOneFile">
+            <summary>
+            Indicates whether converted subtitles / zip storages with subtitles should be saved in one zip file.
+            </summary>
+        </member>
+        <member name="P:SSA2SRTService.Models.SSA2SRTServiceRequest.Files">
+            <summary>
+            Array of the input files.
+            </summary>
+        </member>
+        <member name="T:SSA2SRTService.Models.SSA2SRTServiceResponse">
+            <summary>
+            Response.
+            </summary>
+        </member>
+        <member name="P:SSA2SRTService.Models.SSA2SRTServiceResponse.Files">
+            <summary>
+            Array of the output files.
+            </summary>
+        </member>
+    </members>
+</doc>

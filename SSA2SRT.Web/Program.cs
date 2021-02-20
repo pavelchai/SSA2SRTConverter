@@ -1,5 +1,5 @@
 /*
- * SSA2SRT Converter.
+ * SSA2SRT Converter service.
  * Licensed under MIT License.
  * Copyright © 2021 Pavel Chaimardanov.
  */

@@ -1,11 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Authors>Pavel Chaimardanov</Authors>
     <Description>Web client for the SSA2SRT Converter</Description>
     <Copyright>Pavel Chaimardanov</Copyright>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Pavel\Source\Repos\SSA2SRTConverter\SSA2SRT.Web\SSA2SRT.Web.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\Pavel\Source\Repos\SSA2SRTConverter\SSA2SRT.Web\SSA2SRT.Web.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.7" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SSA2SRT.Model\SSA2SRT.Model.csproj" />
