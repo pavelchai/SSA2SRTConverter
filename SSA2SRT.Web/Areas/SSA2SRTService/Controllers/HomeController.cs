@@ -48,7 +48,7 @@ namespace SSA2SRTService.Controllers
             var isZip = count > 1;
             var controller = new SSA2SRTConverterServiceController();
             var request = new SSA2SRTServiceRequest() { SaveInOneFile = isZip, Files = preparedFiles };
-            var response = (controller.Post(request) as ObjectResult).Value as SSA2SRTServiceResponse;
+            var response = (await controller.Post(request) as ObjectResult).Value as SSA2SRTServiceResponse;
 
             File file = response.Files.FirstOrDefault();
 

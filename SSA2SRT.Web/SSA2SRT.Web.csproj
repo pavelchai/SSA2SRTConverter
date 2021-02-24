@@ -9,10 +9,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\Users\Pavel\Source\Repos\SSA2SRTConverter\SSA2SRT.Web\SSA2SRT.Web.xml</DocumentationFile>
+    <NoWarn>1591;1701;1702</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>C:\Users\Pavel\Source\Repos\SSA2SRTConverter\SSA2SRT.Web\SSA2SRT.Web.xml</DocumentationFile>
+    <NoWarn>1591;1701;1702</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,8 @@
  */
 using Microsoft.AspNetCore.Mvc;
 using SSA2SRTService.Models;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace SSA2SRTService.Controllers
 {
@@ -19,16 +21,17 @@ namespace SSA2SRTService.Controllers
         /// <param name="request"> Request info. </param>
         /// <returns> Response info. </returns>
         [HttpPost]
-        [ProducesResponseType(typeof(SSA2SRTServiceResponse), 200)]
-        [ProducesResponseType(400)]
-        public IActionResult Post(SSA2SRTServiceRequest request)
+        [ProducesResponseType(typeof(SSA2SRTServiceResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post(SSA2SRTServiceRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return new ObjectResult(SSA2SRTServiceProcessor.Process(request));
+            var response = await Task.Run(() => SSA2SRTServiceProcessor.Process(request));
+            return new ObjectResult(response);
         }
     }
 }
